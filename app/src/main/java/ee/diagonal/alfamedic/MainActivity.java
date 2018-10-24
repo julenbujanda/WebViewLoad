@@ -1,6 +1,7 @@
 package ee.diagonal.alfamedic;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -32,7 +33,20 @@ public class MainActivity extends AppCompatActivity {
         imgAlfaMedic=findViewById(R.id.img_alfamedic);
         progressBar=findViewById(R.id.progress_bar);
         linearLayout=findViewById(R.id.header_progress);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                String urlHost = Uri.parse(url).getHost();
+                switch (urlHost) {
+                    case "www.app.alfamedic.es":
+                        return false;
+                    default:
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                }
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int progress) {
