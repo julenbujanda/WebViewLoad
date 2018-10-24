@@ -18,19 +18,20 @@ import android.widget.ProgressBar;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-    private ImageView imgAlfaMedic;
+    //private ImageView imgAlfaMedic;
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.web_view);
         webView.setVisibility(View.GONE);
-        imgAlfaMedic=findViewById(R.id.img_alfamedic);
+        //imgAlfaMedic=findViewById(R.id.img_alfamedic);
         progressBar=findViewById(R.id.progress_bar);
         linearLayout=findViewById(R.id.header_progress);
         webView.setWebViewClient(new WebViewClient(){
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout.setVisibility(View.VISIBLE);
                 if(progress == 100){
                     webView.setVisibility(View.VISIBLE);
-                    imgAlfaMedic.setVisibility(View.GONE);
+                    //imgAlfaMedic.setVisibility(View.GONE);
                     linearLayout.setVisibility(View.GONE);
                 }
             }
