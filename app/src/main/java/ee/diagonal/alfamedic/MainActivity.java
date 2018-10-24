@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgAlfaMedic;
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
+    private int firstLoad = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int progress) {
-                linearLayout.setVisibility(View.VISIBLE);
+                if (firstLoad > 4)
+                    linearLayout.setVisibility(View.VISIBLE);
+                else
+                    firstLoad++;
                 if (progress == 100) {
                     webView.setVisibility(View.VISIBLE);
                     imgAlfaMedic.setVisibility(View.GONE);
