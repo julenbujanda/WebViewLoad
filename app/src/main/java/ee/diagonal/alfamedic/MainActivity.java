@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String URL = "http://www.app.alfamedic.es/";
+
     private WebView webView;
     private ImageView imgAlfaMedic;
     private ProgressBar progressBar;
@@ -31,28 +33,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.web_view);
         webView.setVisibility(View.GONE);
-        imgAlfaMedic=findViewById(R.id.img_alfamedic);
-        progressBar=findViewById(R.id.progress_bar);
-        linearLayout=findViewById(R.id.header_progress);
-        webView.setWebViewClient(new WebViewClient(){
+        imgAlfaMedic = findViewById(R.id.img_alfamedic);
+        progressBar = findViewById(R.id.progress_bar);
+        linearLayout = findViewById(R.id.header_progress);
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                final String HOST = Uri.parse(URL).getHost();
                 String urlHost = Uri.parse(url).getHost();
-                switch (urlHost) {
-                    case "www.app.alfamedic.es":
-                        return false;
-                    default:
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                        return true;
+                if (HOST.equals(urlHost)) {
+                    return false;
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true;
                 }
             }
         });
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 linearLayout.setVisibility(View.VISIBLE);
-                if(progress == 100){
+                if (progress == 100) {
                     webView.setVisibility(View.VISIBLE);
                     imgAlfaMedic.setVisibility(View.GONE);
                     linearLayout.setVisibility(View.GONE);
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("http://www.app.alfamedic.es/");
+        webView.loadUrl(URL);
     }
 
     @Override
