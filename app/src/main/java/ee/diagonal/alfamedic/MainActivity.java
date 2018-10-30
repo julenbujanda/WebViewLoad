@@ -17,11 +17,11 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
+    //URL inicial de la aplicación
     private final String URL = "http://www.app.alfamedic.es/";
 
     private WebView webView;
     private ImageView imgAlfaMedic;
-    private ProgressBar progressBar;
     private LinearLayout linearLayout;
     private int firstLoad = 0;
 
@@ -35,8 +35,12 @@ public class MainActivity extends AppCompatActivity {
         webView = findViewById(R.id.web_view);
         webView.setVisibility(View.GONE);
         imgAlfaMedic = findViewById(R.id.img_alfamedic);
-        progressBar = findViewById(R.id.progress_bar);
         linearLayout = findViewById(R.id.header_progress);
+        /*
+         * Las páginas se cargan dentro de la aplicación,
+         * en caso de que se abra un link externo las abrirá
+         * desde el navegador del teléfono
+         */
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -51,9 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        /*
+         * Mostrar la vista de carga entre cambios de página
+         */
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int progress) {
+                /* No muetra la vista de carga durante el splash
+                    Cambiar el número de cargas para adaptarse a la página
+                 */
                 if (firstLoad > 4)
                     linearLayout.setVisibility(View.VISIBLE);
                 else
@@ -71,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    /*
+     * Volver una página atrás pulsando la tecla del teléfono,
+     * si no existe sale de la aplicación
+     */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
